@@ -51,6 +51,11 @@
      list-style: none; 
      margin-left: 0em;
   }
+
+  .align-center {
+      text-align: center;
+      max-width: 80%;
+    }
 /*  .artist-bio {
     padding-top: 50px;
     grid-area: bio;
@@ -84,6 +89,11 @@
     .social-links {
       padding-top: 25px;
     }
+
+    .see-more{
+      text-align: center;
+      max-width: 80%;
+    }
   }
 </style>
 
@@ -91,11 +101,68 @@
   <title>{artist.name} - Final Show - 2020</title>
 </svelte:head>
 
+<div class="container is-desktop bg-col-3">
+  <div style="
+    width: 100%;
+    height: 350px;
+    margin: auto;
+  ">
+  </div>
+</div>
+
+<section class="section bg-col-7">
+    <div class="content">
+      <section class="section bg-col-7">
+        <div class="container is-widescreen align-center">
+          <h2>#insert artwork title#</h2>
+          <h3>
+            {artist.name}
+            {#if artist.otherName}({artist.otherName}){/if}
+          </h3>
+          <p>#insert artwork description#</p>
+          <h3>How to interact</h3>
+          <p>#insert interaction instructions#</p>
+          <a href="" class="rounded-link col-7 bg-col-1">See the work</a>
+          <br>
+          <div>#images/video carousel#</div>
+        </div>
+      </section>
+
+      <section class="section bg-col-2 col-6">
+        <div class="container is-widescreen see-more">
+          <h2>Want to see more?</h2>
+          <div class="columns">
+              <div class="column">
+                <p>LIVE ONLINE</p>
+                <p>#insert timeslot a#</p>
+                <p>#insert timeslot b#</p>
+                <div>
+                  <a href="" class="rounded-link bg-col-7">Watch Live</a>
+                  <a href="../schedule" class="rounded-link bg-col-7">Full Schedule</a>
+                </div>
+              </div>
+              <div class="column">
+                <p>ON SITE</p>
+                <p>Goldsmiths, University of London</p>
+                <p>St James Hatcham Building</p>
+                <div>
+                  <a href="../getting-there" class="rounded-link bg-col-7">Getting There</a>
+                  <a href="" class="rounded-link bg-col-7">Map</a>
+                </div>
+              </div>
+          </div>    
+        </div>
+      </section>
+    </div>
+</section>
+
 
 <section class="section bg-col-7 artists-section">
   <div class="container is-widescreen">
 
     <div class="content">
+
+    
       <div class="columns">
       <div class="column is-one-third">
 
