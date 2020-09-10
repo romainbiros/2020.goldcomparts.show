@@ -8,21 +8,25 @@
 </script>
 
 <script>
-  import { slugify } from "../../js/helpers.js";
+  import { range } from "d3-array";
+  import { slugify, formatDate, formatDay, formatTime } from "../../js/helpers";
   import SocialLink from "../../components/SocialLink.svelte";
 
   export let artist;
+
+  $: artworkImages = range(artist.numImages).map(
+    i => `/img/artworks/${artist.username}-${i + 1}.jpeg`
+  );
 </script>
 
 <style>
   /*.content {*/
-    /*display: grid;*/
-    /*justify-content: center;*/
-    /*grid-template-columns: 400px auto;*/
-    /*grid-template-rows: 50px 400px 10px;*/
-    /*grid-template-areas: "img name" "img bio" "links bio";*/
+  /*display: grid;*/
+  /*justify-content: center;*/
+  /*grid-template-columns: 400px auto;*/
+  /*grid-template-rows: 50px 400px 10px;*/
+  /*grid-template-areas: "img name" "img bio" "links bio";*/
   /*}*/
-
 
   .bio-photo {
     width: 100%;
@@ -31,27 +35,27 @@
     display: block;
     background-position: center;
     background-repeat: no-repeat;
-    background-size:contain;
-    background-color: #A6A8AB;
+    background-size: contain;
+    background-color: #a6a8ab;
   }
 
-  h3{
-    margin-top:.6666em;
+  h3 {
+    margin-top: 0.6666em;
   }
 
-  a{
-    color:#387194;
+  a {
+    color: #387194;
   }
 
-  .artists-section{
+  .artists-section {
     min-height: 100vh;
   }
 
   .content ul {
-     list-style: none; 
-     margin-left: 0em;
+    list-style: none;
+    margin-left: 0em;
   }
-/*  .artist-bio {
+  /*  .artist-bio {
     padding-top: 50px;
     grid-area: bio;
     padding-left: 10px;
@@ -69,16 +73,15 @@
   }*/
 
   @media screen and (max-width: 768px) {
-/*    .content {
+    /*    .content {
       display: grid;
       grid-template-columns: 400px;
       grid-template-rows: 400px 50px auto;
       grid-template-areas: "img" "name" "bio" "links";
     }*/
 
-
-    h2{
-      margin-top:.5714em;
+    h2 {
+      margin-top: 0.5714em;
     }
 
     .social-links {
@@ -91,22 +94,91 @@
   <title>{artist.name} - Final Show - 2020</title>
 </svelte:head>
 
-
 <section class="section bg-col-7 artists-section">
   <div class="container is-widescreen">
 
     <div class="content">
       <div class="columns">
-      <div class="column is-one-third">
+        <div class="column is-one-third">
 
-        <div
-          class="bio-photo"
-          style="background-image:url(img/bios/{artist.username}.jpeg)">
+          <div
+            class="bio-photo"
+            style="background-image:url(img/bios/{artist.username}.jpeg)" />
+
+          <!-- TODO not an ideal setup to be show / hiding bio on mobile versus desktop... to be resolved in the next iteration with artist work-->
+          <div class="is-hidden-desktop is-hidden-tablet">
+            <h2 class="artist-name">
+              {artist.name}
+              {#if artist.otherName}({artist.otherName}){/if}
+            </h2>
+
+            <div class="artist-bio">
+              {#if artist.bioHTML}
+                {@html artist.bioHTML}
+              {:else}
+                <p>No biography provided</p>
+              {/if}
+            </div>
+          </div>
+
+          <div class="social-links">
+            <h3>Social links</h3>
+            <SocialLink kind="website" value={artist.website} />
+            <SocialLink kind="instagram" value={artist.instagram} />
+            <SocialLink kind="twitter" value={artist.twitter} />
+            <SocialLink kind="facebook" value={artist.facebook} />
+            <SocialLink kind="vimeo" value={artist.vimeo} />
+            <SocialLink kind="youtube" value={artist.youtube} />
+            <SocialLink kind="twitch" value={artist.twitch} />
+          </div>
+
+          {#if artist.events.length}
+            <div class="event-schedule">
+              <h3>Event schedule</h3>
+              <ul>
+                {#each artist.events as event}
+                  <li>
+                    <!-- How should we link to the schedule? give each event an ID? -->
+                    <a href="/schedule/TODO">{event.title}</a>
+                    <!-- How should we format date/times? by day? -->
+                    - {event.startTime}
+                  </li>
+                {/each}
+              </ul>
+            </div>
+          {/if}
+
         </div>
+        <div class="column is-hidden-mobile is-two-thirds">
 
+          <h2 class="artwork-title">{artist.title}</h2>
 
-        <!-- TODO not an ideal setup to be show / hiding bio on mobile versus desktop... to be resolved in the next iteration with artist work-->
-        <div class="is-hidden-desktop is-hidden-tablet">
+          {#each artworkImages as image}
+            <img src={image} alt="" />
+          {/each}
+
+          <div class="artwork-desc">
+            {#if artist.artworkHTML}
+              {@html artist.artworkHTML}
+            {:else}
+              <p>No artwork description provided</p>
+            {/if}
+          </div>
+
+          {#if artist.events.length}
+            <div class="event-schedule">
+              <h3>Event schedule</h3>
+              <ul>
+                {#each artist.events as event}
+                  <li>
+                    <a href="/schedule/">{event.title}</a>
+                    - {event.startTime}
+                  </li>
+                {/each}
+              </ul>
+            </div>
+          {/if}
+
           <h2 class="artist-name">
             {artist.name}
             {#if artist.otherName}({artist.otherName}){/if}
@@ -120,50 +192,8 @@
             {/if}
           </div>
         </div>
-
-        <div class="social-links">
-          <h3>Social links</h3>
-          <SocialLink kind="website" value={artist.website} />
-          <SocialLink kind="instagram" value={artist.instagram} />
-          <SocialLink kind="twitter" value={artist.twitter} />
-          <SocialLink kind="facebook" value={artist.facebook} />
-          <SocialLink kind="vimeo" value={artist.vimeo} />
-          <SocialLink kind="youtube" value={artist.youtube} />
-          <SocialLink kind="twitch" value={artist.twitch} />
-        </div>
-
-
-        <!-- TODO these don't seem to be implemented yet, leading to 404 errors so just editing out for now-->
-<!--         {#if artist.events.length}
-          <div class="event-schedule">
-            <h3>Event schedule</h3>
-            <ul>
-              {#each artist.events as event}
-                <li>
-                  <a href="/schedule/TODO">{event.title}</a>
-                  - {event.startTime}
-                </li>
-              {/each}
-            </ul>
-          </div>
-        {/if}
- -->
-      </div>
-      <div class="column is-hidden-mobile is-two-thirds">
-            <h2 class="artist-name">
-              {artist.name}
-              {#if artist.otherName}({artist.otherName}){/if}
-            </h2>
-
-            <div class="artist-bio">
-              {#if artist.bioHTML}
-                {@html artist.bioHTML}
-              {:else}
-                <p>No biography provided</p>
-              {/if}
-            </div>
       </div>
     </div>
+    <div style="padding-top: 100px;" />
   </div>
-  <div style="padding-top: 100px;" />
 </section>
