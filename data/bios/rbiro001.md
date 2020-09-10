@@ -4,7 +4,8 @@ With *loss="binary_crossentropy"* (2019), he brought the latent space of machine
 
 He is now involved in a long term collaboration with a group of dancers from Trinity Laban and his latest series of works focus on revisiting the use of the slit-scan photography technique.
 
-Works:
-2020: *MassHysteriaPresents The Game*, Tate Modern, London
-2019: *loss="binary_crossentropy"* with Juliette Pepin, Enclave, London
-2019: *Overcurrents*, Horniman X Goldsmiths, Horniman Museum, London
+Previous work:
+
+2020: *MassHysteriaPresents The Game*, Tate Modern, London<br>
+2019: *loss="binary_crossentropy"* with Juliette Pepin, Enclave, London<br>
+2019: *Overcurrents*, Horniman X Goldsmiths, Horniman Museum, London<br>
